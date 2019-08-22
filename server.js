@@ -1,5 +1,6 @@
 const express = require('express');
-
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -66,18 +67,6 @@ app.get('/profile/:id', (req, res) => {
     }
 })
 
-app.delete('/delete/:id', (req, res) => {
-    const { id } = req.params;
-})
-
 app.listen(3000, () => {
     console.log("App running on port 3000");
 })
-
-/*
-/ --> res = this is working
-/signin -->POST = succes/fail
-/register --> POST = user
-/profile/:userId --> GET = user
-/delete/:userId success/fail
-*/
