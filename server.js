@@ -2,34 +2,28 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const cors = require('cors');
+const knex = require('knex')
+
+const postgres = knex({
+    client: 'pg',
+    connection: {
+        host: '127.0.0.1',
+        user: 'postgres',
+        password: 'Niyrtxqo19',
+        database: 'facerecog'
+    }
+});
+
+postgres.select('*').from('users').then(data => {
+    console.log(data)
+})
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
-const database = {
-    users: [
-        {
-            id: '123',
-            name: 'john',
-            email: 'john@gmail.com',
-            password: 'cookies',
-            joined: new Date(),
-            entries: 0
-        },
-        {
-            id: '124',
-            name: 'sally',
-            email: 'sally@gmail.com',
-            password: 'cakes',
-            joined: new Date(),
-            entries: 0
-        }
-    ]
-}
-
-app.get('/', (req, res) => {
+app.get('/', (res) => {
     res.send(database.users);
 })
 
@@ -44,14 +38,12 @@ app.post('/signin', (req, res) => {
 
 app.post('/register', (req, res) => {
     const { email, name } = req.body
-    database.users.push({            
-    id: '125',
-    name: name,
-    email: email,
-    joined: new Date(),
-    entries: 0
-  })
-  res.json(database.users[database.users.length-1]);
+    postgres('users').insert({
+        email: email,
+        name: name,
+        entries: 0,
+        joined: new Date()
+    }).then(console.log)
 })
 
 app.get('/profile/:id', (req, res) => {
