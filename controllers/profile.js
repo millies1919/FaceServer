@@ -12,5 +12,5 @@ const handleProfileGet = (req, res, postgres) => {
 }
 
 module.export = {
-    handleProfileGet: handleProfileGet
+    handleProfileGet
 }

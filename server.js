@@ -8,7 +8,6 @@ const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 
-
 const postgres = knex({
     client: 'pg',
     connection: {
@@ -31,6 +30,7 @@ app.post('/signin', (req, res) => { signin.handleSignIn(req, res, postgres, bcry
 app.post('/register', (req, res) => { register.handleRegister(req, res, postgres, bcrypt ) });
 app.get('/profile/:id', (res, req) => { profile.handleProfileGet(req, res, postgres) });
 app.put('/image', (req, res) => { image.handleImage(req, res, postgres) });
+app.post('/imageurl', (req, res) => { image.handleApiCall(req, res) });
 
 app.listen(3000, () => {
     console.log("App running on port 3000");
