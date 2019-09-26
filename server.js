@@ -27,7 +27,7 @@ app.get('/', (req, res)=> {
     res.send(database.users);
   })
 app.post('/signin', (req, res) => { signin.handleSignIn(req, res, postgres, bcrypt) });
-app.post('/register', (req, res) => { register.handleRegister(req, res, postgres, bcrypt ) });
+app.post('/register', (req, res) => { register.handleRegister(req, res, postgres, bcrypt) });
 app.get('/profile/:id', (res, req) => { profile.handleProfileGet(req, res, postgres) });
 app.put('/image', (req, res) => { image.handleImage(req, res, postgres) });
 app.post('/imageurl', (req, res) => { image.handleApiCall(req, res) });

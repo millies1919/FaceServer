@@ -1,15 +1,15 @@
 const handleSignIn = (req, res, postgres, bcrypt) => {
-     const { email, password } = req.body;
+    const { email, password } = req.body;
     if(!email || !password) {
         return res.status(400).json('incorrect form submission')
-      }
+      } 
     postgres.select('email', 'hash').from('login')
-    .where('email', '=', email)
+    .where('email', '=', req.body.email)
         .then(data => {
           const isValid = bcrypt.compareSync(password, data[0].hash);
           if (isValid) {
              return postgres.select('*').from('users')
-              .where('email', '=', email)
+              .where('email', '=', req.body.email)
               .then(user => {
                 res.json(user[0])
               })
@@ -21,6 +21,6 @@ const handleSignIn = (req, res, postgres, bcrypt) => {
         .catch(err => res.status(400).json('invalid credentials'))
 }
 
-module.export = {
-    handleSignIn
+module.exports = {
+    handleSignIn: handleSignIn
 }
